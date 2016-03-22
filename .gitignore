@@ -1,0 +1,12 @@
+.DS_Store
+*.bak
+*.pyc
+cache/
+databases/*
+databases_*/*
+databases_bak/*
+errors/
+sessions/
+uploads/
+private/
+.hg/

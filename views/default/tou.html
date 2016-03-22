@@ -1,0 +1,19 @@
+{{left_sidebar_enabled, right_sidebar_enabled = False, True}}
+
+{{extend 'layout.html'}}
+
+<p>https://www.cooleygo.com/documents/terms-use/</p>
+
+{{block right_sidebar}}
+  <br/>
+  <div class="panel panel-info">
+    <div class="panel-heading"><h3 class="panel-title">
+        <i class="glyphicon glyphicon-cog"></i>
+        {{=T("More Information")}}
+      </h3></div>
+    <ul class="list-group">
+      <li class="list-group-item"><a href="{{=URL('privacy')}}">Privacy Policy</a></li>
+      <li class="list-group-item"><a href="{{=URL('tou')}}">Terms of Use</a></li>
+    </ul>
+  </div>
+{{end}}

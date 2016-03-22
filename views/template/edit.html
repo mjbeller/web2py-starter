@@ -1,0 +1,39 @@
+{{response.files.append(URL('static', 'pkgs/jquery.chained.js'))}}
+
+{{extend 'layout.html'}}
+
+<h4>
+  <a href='{{=URL(request.controller, 'list', user_signature=True)}}'>
+    <i class="fa fa-list"> View {{=item_name}} List</i>
+  </a>
+</h4>
+
+<hr>
+
+{{=form}}
+
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    $('#service_request_request_priority option').each(function() {
+      if (this.innerHTML.indexOf("*") != -1) {
+          var catclass = this.innerHTML.split("*",2);
+          $(this).addClass(catclass[0]);
+          this.text = catclass[1];
+      }
+    })
+
+    $("#service_request_request_priority").chained("#service_request_request_type");
+
+    $('#service_request_request_subcategory option').each(function() {
+      if (this.innerHTML.indexOf("*") != -1) {
+          var catclass = this.innerHTML.split("*",2);
+          $(this).addClass(catclass[0]);
+          this.text = catclass[1];
+      }
+    })
+
+    $("#service_request_request_subcategory").chained("#service_request_request_category");
+
+  } );
+</script>

@@ -1,0 +1,104 @@
+{{response.files.append(URL('static', 'plugins/datatables/jquery.dataTables.min.css'))}}
+{{response.files.append(URL('static', 'plugins/datatables/jquery.dataTables.min.js'))}}
+
+{{response.files.append(URL('static', 'plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js'))}}
+{{response.files.append(URL('static', 'plugins/datatables/extensions/Responsive/css/dataTables.responsive.css'))}}
+
+{{extend 'layout.html'}}
+
+<style>
+  tfoot input {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+    font-size: 70%;
+  }
+  tfoot {
+    display: table-header-group;
+  }
+</style>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    // add a text input to each footer cell for column search
+    $('#datatable tfoot th').each( function () {
+        var title = $('#datatable thead th').eq( $(this).index() ).text();
+        if (title != '') {
+          $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+        }
+    } );
+
+    // DataTable
+    var table = $('#datatable').DataTable( {
+      stateSave: true,
+      responsive: true,
+      columns: [
+        null,
+        null,
+        null,
+        null,
+        null,
+        {"orderable": false, "orderable": false}
+      ]
+    } );
+
+    // apply the column search
+    table.columns().every( function () {
+        var that = this;
+
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+            that
+                .search( this.value )
+                .draw();
+        } );
+    } );
+
+  } );
+</script>
+
+<p>
+You can view <i class="fa fa-search"></i> more information.
+If you're authorized, you can also edit <i class="fa fa-pencil"></i> the item.
+</p>
+
+<table id="datatable" class="display compact" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Created On</th>
+      <th>Created By</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <th>Category</th>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Created On</th>
+      <th>Created By</th>
+      <th></th>
+    </tr>
+  </tfoot>
+  <tbody>
+    {{for row in items:}}
+      <tr>
+        <td>{{=row[0]}}</td>
+        <td>{{=row[1]}}</td>
+        <td>{{=row[2]}}</td>
+        <td>{{=row[3]}}</td>
+        <td>{{=row[4]}}</td>
+        <td>
+          <a href='{{=URL(row[0].lower(), 'view', args=[row[1]])}}'><i class="fa fa-search"></i></a>
+          {{if auth.user: # and (auth.user.id == row['created_by'] or auth.user.email == row['contact_email']):}}
+            &nbsp;
+            <a href='{{=URL(row[0].lower(), 'edit', args=[row[1]])}}'><i class="fa fa-pencil"></i></a>
+          {{pass}}
+        </td>
+      </tr>
+    {{pass}}
+  </tbody>
+</table>
