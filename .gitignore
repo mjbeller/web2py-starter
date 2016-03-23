@@ -8,5 +8,4 @@ databases_bak/*
 errors/
 sessions/
 uploads/
-private/
 .hg/
