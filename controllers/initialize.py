@@ -22,10 +22,9 @@ def adminuser():
 
         authgroups()
         fixauthgroups()
-        # appstatuses()
-        populate(db.person)
-        populate(db.dog)
-        populate(db.dog_owner)
+        load_sample_data()
+
+        response.flash='Initialized!!'
 
     redirect(URL('default', 'index'))
 
@@ -52,16 +51,28 @@ def fixauthgroups():
     return
 
 
-def appstatuses():
-    db.application_status.truncate()
-    db.application_status.bulk_insert([
-        {'title': 'New'},
-        {'title': 'Pre Approved'},
-        {'title': 'Approved'},
-        {'title': 'Denied'},
-        {'title': 'Active'},
-        {'title': 'Closed'},
+def load_sample_data():
+
+    db.dog.truncate()
+    db.dog.bulk_insert([
+        {'title': 'Fido'},
+        {'title': 'Spot'},
     ])
+
+    db.person.truncate()
+    db.person.bulk_insert([
+        {'title': 'John'},
+        {'title': 'Mary'},
+    ])
+
+    db.dog_owner.truncate()
+    db.dog_owner.bulk_insert([
+        {'dog': 1, 'person': 1},
+        {'dog': 1, 'person': 2},
+        {'dog': 2, 'person': 1},
+        {'dog': 2, 'person': 2},
+    ])
+
     return
 
 
