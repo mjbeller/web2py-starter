@@ -17,6 +17,18 @@
       _href=URL('admin','default','peek',args=(request.application,'views',request.controller,'index.html')))))}}</li>
     <li>{{=T('You can modify this application and adapt it to your needs')}}</li>
   </ol>
+
+  <h3>Starter App vs. Welcome App</h3>
+  <ul>
+    <li>Starter App can be used as a starting point for new web2py apps instead of the Welcome app</li>
+    <li>Starter App is based on the
+      <a href="http://almsaeedstudio.com/preview" target="_blank">AdminLTE Template</a>
+    </li>
+    <li>You can log in using "admin" and "password" to explore</li>
+  </ul>
+
+  <br>
+
 {{elif 'content' in globals():}}
   {{=content}}
 {{else:}}
