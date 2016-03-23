@@ -314,17 +314,24 @@ desired effect
       <ul class="sidebar-menu {{=hidden}}">
         <li class="header">CATEGORIES</li>
         <li class="treeview">
-          {{=sidebar_menu_item('Dogs', icon='bars')}}
+          {{=sidebar_menu_item('Dogs', icon='circle-o')}}
           <ul class="treeview-menu">
-            {{=sidebar_menu_item('View Dogs', URL('dog', 'list'), icon='circle-o')}}
-            {{=sidebar_menu_item('Create Dog', URL('dog', 'create'), icon='circle-o')}}
+            {{=sidebar_menu_item('View Dogs', URL('dog', 'list'), icon='list')}}
+            {{=sidebar_menu_item('Create Dog', URL('dog', 'create'), icon='pencil-square-o')}}
           </ul>
         </li>
         <li class="treeview">
-          {{=sidebar_menu_item('Owners', icon='bars')}}
+          {{=sidebar_menu_item('Dog Lovers', icon='circle-o')}}
           <ul class="treeview-menu">
-            {{=sidebar_menu_item('View Owners', URL('person', 'list'), icon='circle-o')}}
-            {{=sidebar_menu_item('Create Owner', URL('person', 'create'), icon='circle-o')}}
+            {{=sidebar_menu_item('View Dog Lovers', URL('person', 'list'), icon='list')}}
+            {{=sidebar_menu_item('Create Dog Lover', URL('person', 'create'), icon='pencil-square-o')}}
+          </ul>
+        </li>
+        <li class="treeview">
+          {{=sidebar_menu_item('Dog Owner', icon='circle-o')}}
+          <ul class="treeview-menu">
+            {{=sidebar_menu_item('View Dog Owners', URL('dog_owner', 'list'), icon='list')}}
+            {{=sidebar_menu_item('Create Dog Owner', URL('dog_owner', 'create'), icon='pencil-square-o')}}
           </ul>
         </li>
       </ul>

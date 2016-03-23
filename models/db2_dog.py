@@ -25,7 +25,7 @@ db.define_table(
           requires=IS_IN_SET(STATUSES, zero=None)),
 
     auth.signature,
-    singular='Person', plural='People',
+    singular='Dog Lover', plural='Dog Lovers',
     format='%(title)s',
 )
 
@@ -42,8 +42,15 @@ db.define_table(
 db.define_table(
     'dog_owner',
 
-    Field('person', 'reference person', requires=IS_NOT_EMPTY()),
-    Field('dog', 'reference dog', requires=IS_NOT_EMPTY()),
+    Field('person', 'reference person'),
+    Field(
+        'dog', 'reference dog',
+        # requires=
+        #     IS_IN_DB(
+        #         db, 'dog.id', db.dog._format,
+        #         orderby=db.dog.title
+        #     )
+    ),
 
     auth.signature,
     singular='Dog Owner', plural='Dog Owners',
