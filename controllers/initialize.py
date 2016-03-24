@@ -24,7 +24,7 @@ def adminuser():
         fixauthgroups()
         load_sample_data()
 
-        response.flash='Initialized!!'
+        session.flash = "Initialized!!"
 
     redirect(URL('default', 'index'))
 
