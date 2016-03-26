@@ -30,6 +30,7 @@ response.meta.keywords = myconf.get('app.keywords')
 response.meta.generator = myconf.get('app.generator')
 
 response.company = myconf.get('app.company')
+response.version = myconf.get('app.version')
 
 # your http://google.com/analytics id
 response.google_analytics_id = None
