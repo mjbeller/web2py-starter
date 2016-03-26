@@ -1,0 +1,15 @@
+{{extend 'layout.html'}}
+
+<h4>
+  <a href='{{=URL(request.controller, 'list', user_signature=True)}}'>
+    <i class="fa fa-list"> View {{=item_name}} List</i>
+  </a>
+</h4>
+
+<hr>
+
+<div class="box box-solid box-primary">
+  <div class="box-body">
+    {{=form}}
+  </div>
+</div>

@@ -1,0 +1,112 @@
+{{response.files.append(URL('static', 'plugins/datatables/jquery.dataTables.min.css'))}}
+{{response.files.append(URL('static', 'plugins/datatables/jquery.dataTables.min.js'))}}
+
+{{response.files.append(URL('static', 'plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js'))}}
+{{response.files.append(URL('static', 'plugins/datatables/extensions/Responsive/css/dataTables.responsive.css'))}}
+
+{{extend 'layout.html'}}
+
+<style>
+  tfoot input {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+    font-size: 70%;
+  }
+  tfoot {
+    display: table-header-group;
+  }
+</style>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    // add a text input to each footer cell for column search
+    $('#datatable tfoot th').each( function () {
+        var title = $('#datatable thead th').eq( $(this).index() ).text();
+        if (title != '') {
+          $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+        }
+    } );
+
+    // DataTable
+    var table = $('#datatable').DataTable( {
+      stateSave: true,
+      responsive: true,
+      columns: [
+        {{for field in field_list:}}
+          null,
+        {{pass}}
+        {"orderable": false, "orderable": false}
+      ]
+    } );
+
+    // apply the column search
+    table.columns().every( function () {
+        var that = this;
+
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+            that
+                .search( this.value )
+                .draw();
+        } );
+    } );
+
+  } );
+</script>
+
+{{if announcement:}}
+  <div class="alert alert-danger alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {{=announcement}}
+  </div>
+{{pass}}
+
+<h4>
+    <a href='{{=URL(request.controller, 'create')}}'>
+      <i class="fa fa-pencil"> Create New {{=item_name}}</i>
+    </a>
+</h4>
+
+<p>
+You can
+view <i class="fa fa-search"></i> more information.
+If you're authorized, you can also reply <i class="fa fa-reply"></i> to the {{=item_name}}.
+</p>
+
+<table id="datatable" class="display compact" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+      {{for field in field_list:}}
+        <th>{{=field.label}}</th>
+      {{pass}}
+      <th></th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      {{for field in field_list:}}
+        <th>{{=field.label}}</th>
+      {{pass}}
+      <th></th>
+    </tr>
+  </tfoot>
+  <tbody>
+    {{for row in row_list:}}
+      <tr>
+        {{for field in field_list:}}
+          <td>{{=row[field]}}</td>
+        {{pass}}
+        <td>
+          <a href='{{=URL('view', args=[row.id])}}'><i class="fa fa-search"></i></a>
+          {{if row.direction == 'Received':}}
+            &nbsp;
+            <a href='{{=URL('reply', args=[row.id])}}'><i class="fa fa-reply"></i></a>
+          {{pass}}
+        </td>
+      </tr>
+    {{pass}}
+  </tbody>
+</table>

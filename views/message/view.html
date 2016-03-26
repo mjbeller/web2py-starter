@@ -1,0 +1,17 @@
+{{extend 'layout.html'}}
+
+<h4>
+  <a href='{{=URL(request.controller, 'list', user_signature=True)}}'>
+    <i class="fa fa-list"> View {{=item_name}} List</i>
+  </a>
+  {{if auth.user and item.direction == 'Received':}}
+    &nbsp;
+    <a href='{{=URL(request.controller, 'reply', args=(item.id))}}'>
+      <i class="fa fa-reply"> Reply</i>
+    </a>
+  {{pass}}
+</h4>
+
+<hr>
+
+{{=form}}

@@ -1,0 +1,54 @@
+<!-- Messages: style can be found in dropdown.less-->
+<li id="messages-menu-load" class="dropdown messages-menu">
+  <!-- Menu toggle button -->
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+    <i class="fa fa-envelope-o"></i>
+    {{if len(unread_messages):}}
+      <span class="label label-success">{{=len(unread_messages)}}</span>
+    {{pass}}
+  </a>
+  <ul class="dropdown-menu">
+    <li class="header">You have {{=len(unread_messages)}} unread messages</li>
+    <li>
+
+      <!-- inner menu: contains the messages -->
+
+      {{if unread_messages:}}
+      <ul class="menu">
+
+        <!-- start message -->
+        {{for msg in unread_messages:}}
+        <li>
+          <a href="{{=URL('message', 'view.html', args=[msg.id])}}">
+            <!-- User Image -->
+            <div class="pull-left">
+              <i class="fa fa-envelope fa-2x"></i>
+              <!-- <img src="{{=URL('static','img/user2-160x160.jpg')}}" class="img-circle" alt="User Image"> -->
+            </div>
+            <!-- Message title and timestamp -->
+            <h4>
+              <small><i class="fa fa-clock-o"></i> {{=prettydate(msg.created_on, T)}}</small>
+              <br>
+              {{=msg.msg_sender}}
+            </h4>
+            <!-- The message -->
+            <p>{{=msg.msg_subject}}</p>
+          </a>
+        </li>
+        {{pass}}
+        <!-- end message -->
+
+      </ul>
+      {{pass}}
+
+      <!-- /.menu -->
+    </li>
+    <li class="footer"><a href="{{=URL('message', 'list.html')}}"><i class="fa fa-list"></i> View Messages</a></li>
+    <li class="footer"><a href="{{=URL('message', 'create.html')}}"><i class="fa fa-pencil-square-o"></i> Create Message</a></li>
+  </ul>
+</li>
+<!-- /.messages-menu -->
+
+<script>
+  $("#messages-menu-load").unwrap();
+</script>
