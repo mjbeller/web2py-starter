@@ -18,12 +18,13 @@ if request.global_settings.web2py_version < "2.14.1":
 from gluon.contrib.appconfig import AppConfig
 ## once in production, remove reload=True to gain full speed
 myconf = AppConfig(reload=True)
+myconf_env = myconf.get('environment.type')
 
 if not request.env.web2py_runtime_gae:
     ## if NOT running on Google App Engine use SQLite or other DB
-    db = DAL(myconf.get('db.uri'),
-             pool_size = myconf.get('db.pool_size'),
-             migrate_enabled = myconf.get('db.migrate'),
+    db = DAL(myconf.get(myconf_env + 'db.uri'),
+             pool_size = myconf.get(myconf_env + 'db.pool_size'),
+             migrate_enabled = myconf.get(myconf_env + 'db.migrate'),
              check_reserved = ['mysql', 'postgres'])  # ['all'])
 else:
     ## connect to Google BigTable (optional 'google:datastore://namespace')
@@ -39,7 +40,7 @@ else:
 ## none otherwise. a pattern can be 'controller/function.extension'
 response.generic_patterns = ['*'] if request.is_local else []
 ## choose a style for forms
-response.formstyle = 'bootstrap3_inline'  # myconf.get('forms.formstyle')  # or 'bootstrap3_stacked' or 'bootstrap2' or other
+response.formstyle = myconf.get('forms.formstyle')  # or 'bootstrap3_stacked' or 'bootstrap2' or other
 response.form_label_separator = myconf.get('forms.separator') or ''
 
 
@@ -60,7 +61,7 @@ response.form_label_separator = myconf.get('forms.separator') or ''
 
 from gluon.tools import Auth, Service, PluginManager
 
-auth = Auth(db)  # , host_names=myconf.get('host.name'))
+auth = Auth(db, host_names=myconf.get(myconf_env + 'host.name'))
 service = Service()
 plugins = PluginManager()
 
@@ -69,11 +70,11 @@ auth.define_tables(username=True, signature=True)
 
 ## configure email
 mail = auth.settings.mailer
-mail.settings.server = 'logging' if request.is_local else myconf.get('smtp.server')
-mail.settings.sender = myconf.get('smtp.sender')
-mail.settings.login = myconf.get('smtp.login')
-mail.settings.tls = myconf.get('smtp.tls') or False
-mail.settings.ssl = myconf.get('smtp.ssl') or False
+mail.settings.server = 'logging' if request.is_local else myconf.get(myconf_env + 'smtp.server')
+mail.settings.sender = myconf.get(myconf_env + 'smtp.sender')
+mail.settings.login = myconf.get(myconf_env + 'smtp.login')
+mail.settings.tls = myconf.get(myconf_env + 'smtp.tls') or False
+mail.settings.ssl = myconf.get(myconf_env + 'smtp.ssl') or False
 
 ## configure auth policy
 auth.settings.registration_requires_verification = False
