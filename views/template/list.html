@@ -22,15 +22,15 @@
   $(document).ready(function() {
 
     // add a text input to each footer cell for column search
-    $('#datatable tfoot th').each( function () {
-        var title = $('#datatable thead th').eq( $(this).index() ).text();
+    $('#{{=item_name.replace(' ','-')}}-datatable tfoot th').each( function () {
+        var title = $('#{{=item_name.replace(' ','-')}}-datatable thead th').eq( $(this).index() ).text();
         if (title != '') {
           $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
         }
     } );
 
     // DataTable
-    var table = $('#datatable').DataTable( {
+    var table = $('#{{=item_name.replace(' ','-')}}-datatable').DataTable( {
       stateSave: true,
       responsive: true,
       columns: [
@@ -76,7 +76,7 @@ view <i class="fa fa-search"></i> more information.
 If you're authorized, you can also edit <i class="fa fa-pencil"></i> the {{=item_name}}.
 </p>
 
-<table id="datatable" class="display compact" cellspacing="0" width="100%">
+<table id="{{=item_name.replace(' ','-')}}-datatable" class="display compact" cellspacing="0" width="100%">
   <thead>
     <tr>
       {{for field in field_list:}}

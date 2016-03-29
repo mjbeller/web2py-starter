@@ -28,7 +28,7 @@ def list():
     #     table.created_on, table.created_by,
     # ]
 
-    response.view = 'template/list.html'
+    response.view = 'template/list.%s' % request.extension
     return dict(
         item_name=table._singular,
         row_list=items,
@@ -60,7 +60,7 @@ def view():
     item = table(table.id == request.args(0)) or redirect(URL('index'))
     form = SQLFORM(table, item, readonly=True, comments=False)
 
-    response.view = 'template/view.html'
+    response.view = 'template/view.%s' % request.extension
     return dict(item_name=table._singular, form=form, item=item)
 
 

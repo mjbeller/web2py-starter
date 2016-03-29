@@ -1,12 +1,8 @@
-<!-- change from template: replace 'edit' action with 'reply' action -->
-
 {{response.files.append(URL('static', 'plugins/datatables/jquery.dataTables.min.css'))}}
 {{response.files.append(URL('static', 'plugins/datatables/jquery.dataTables.min.js'))}}
 
 {{response.files.append(URL('static', 'plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js'))}}
 {{response.files.append(URL('static', 'plugins/datatables/extensions/Responsive/css/dataTables.responsive.css'))}}
-
-{{extend 'layout.html'}}
 
 <style>
   tfoot input {
@@ -67,7 +63,7 @@
 {{pass}}
 
 <h4>
-    <a href='{{=URL(request.controller, 'create')}}'>
+    <a href='{{=URL(request.controller, 'create.html', vars=request.vars)}}'>
       <i class="fa fa-pencil"> Create New {{=item_name}}</i>
     </a>
 </h4>
@@ -75,7 +71,7 @@
 <p>
 You can
 view <i class="fa fa-search"></i> more information.
-If you're authorized, you can also reply <i class="fa fa-reply"></i> to the {{=item_name}}.
+If you're authorized, you can also edit <i class="fa fa-pencil"></i> the {{=item_name}}.
 </p>
 
 <table id="{{=item_name.replace(' ','-')}}-datatable" class="display compact" cellspacing="0" width="100%">
@@ -102,10 +98,10 @@ If you're authorized, you can also reply <i class="fa fa-reply"></i> to the {{=i
           <td>{{=row[field]}}</td>
         {{pass}}
         <td>
-          <a href='{{=URL('view', args=[row.id])}}'><i class="fa fa-search"></i></a>
-          {{if row.direction == 'Received':}}
+          <a href='{{=URL('view.html', args=[row.id])}}'><i class="fa fa-search"></i></a>
+          {{if auth.user: # and (auth.user.id == row['created_by'] or auth.user.email == row['contact_email']):}}
             &nbsp;
-            <a href='{{=URL('reply', args=[row.id])}}'><i class="fa fa-reply"></i></a>
+            <a href='{{=URL('edit.html', args=[row.id])}}'><i class="fa fa-pencil"></i></a>
           {{pass}}
         </td>
       </tr>

@@ -1,0 +1,15 @@
+<h4>
+  <a href='{{=URL(request.controller, 'list.html', user_signature=True)}}'>
+    <i class="fa fa-list"> View {{=item_name}} List</i>
+  </a>
+  {{if auth.user:}}
+    &nbsp;
+    <a href='{{=URL(request.controller, 'edit.html', args=(item.id))}}'>
+      <i class="fa fa-pencil"> Edit</i>
+    </a>
+  {{pass}}
+</h4>
+
+<hr>
+
+{{=form}}
