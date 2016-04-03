@@ -29,8 +29,10 @@
 
     // DataTable
     var table = $('#{{=item_name.replace(' ','-')}}-datatable').DataTable( {
+      pageLength: 5,
       stateSave: true,
       responsive: true,
+      dom: 'tip',
       columns: [
         {{for field in field_list:}}
           null,
@@ -53,26 +55,11 @@
   } );
 </script>
 
-{{if announcement:}}
-  <div class="alert alert-danger alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    {{=announcement}}
-  </div>
-{{pass}}
-
 <h4>
     <a href='{{=URL(request.controller, 'create.html', vars=request.vars)}}'>
       <i class="fa fa-pencil"> Create New {{=item_name}}</i>
     </a>
 </h4>
-
-<p>
-You can
-view <i class="fa fa-search"></i> more information.
-If you're authorized, you can also edit <i class="fa fa-pencil"></i> the {{=item_name}}.
-</p>
 
 <table id="{{=item_name.replace(' ','-')}}-datatable" class="display compact" cellspacing="0" width="100%">
   <thead>
@@ -98,11 +85,13 @@ If you're authorized, you can also edit <i class="fa fa-pencil"></i> the {{=item
           <td>{{=row[field]}}</td>
         {{pass}}
         <td>
-          <a href='{{=URL('view.html', args=[row.id])}}'><i class="fa fa-search"></i></a>
-          {{if auth.user: # and (auth.user.id == row['created_by'] or auth.user.email == row['contact_email']):}}
-            &nbsp;
-            <a href='{{=URL('edit.html', args=[row.id])}}'><i class="fa fa-pencil"></i></a>
+
+          {{for action in actions:}}
+            {{if action['is_item_action'](row):}}
+              <a href='{{=action['url'](row)}}'>&nbsp;<i class="fa fa-{{=action['icon']}}"></i>&nbsp;</a>
+            {{pass}}
           {{pass}}
+
         </td>
       </tr>
     {{pass}}

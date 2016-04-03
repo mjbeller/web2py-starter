@@ -44,6 +44,7 @@
 
   <link rel="stylesheet" href="{{=URL('static','css/web2py.css')}}">
   <link rel="stylesheet" href="{{=URL('static','css/web2py-bootstrap3.css')}}">
+  <link rel="stylesheet" href="{{=URL('static','css/starter.css')}}">
 
   {{include 'web2py_ajax.html'}} <!-- this includes jquery.js, calendar.js/.css and web2py.js -->
 
@@ -391,7 +392,7 @@ desired effect
   <footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
-      Version {{=response.version}}
+      <a href="{{=URL('default', 'changelog')}}">Version {{=response.version}}</a>
     </div>
     <!-- Default to the left -->
     <strong>

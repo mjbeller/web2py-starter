@@ -22,6 +22,12 @@ def list():
     query = (table)
     items = db(query).select(orderby=~table.created_on).render()
 
+    actions = [
+        {'is_item_action': lambda item: True, 'url': lambda item: URL('view.html', args=[item.id]), 'icon': 'search'},
+        {'is_item_action': lambda item: True, 'url': lambda item: URL('edit.html', args=[item.id]), 'icon': 'pencil'},
+    ]
+
+
     fields = [f for f in table]
     # fields = [
     #     table.id,
@@ -32,6 +38,7 @@ def list():
     return dict(
         item_name=table._singular,
         row_list=items,
+        actions=actions,
         field_list=fields,
         announcement=announcement
     )
