@@ -27,8 +27,12 @@
     // DataTable
     var table = $('#{{=item_name.replace(' ','-')}}-datatable').DataTable( {
       pageLength: 5,
-      stateSave: true,
+      scrollY: 300,
+      // stateSave: true,
       responsive: true,
+      select: {
+        style:    'multi'
+      },
       dom: 'tip',
       columns: [
         {{for field in field_list:}}
@@ -58,7 +62,7 @@
     </a>
 </h4>
 
-<table id="{{=item_name.replace(' ','-')}}-datatable" class="display compact" cellspacing="0" width="100%">
+<table id="{{=item_name.replace(' ','-')}}-datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
   <thead>
     <tr>
       {{for field in field_list:}}
@@ -85,7 +89,7 @@
 
           {{for action in actions:}}
             {{if action['is_item_action'](row):}}
-              <a href='{{=action['url'](row)}}'>&nbsp;<i class="fa fa-{{=action['icon']}}"></i>&nbsp;</a>
+              <a href='{{=action['url'](row)}}'><i class="fa fa-{{=action['icon']}}"></i>&nbsp;</a>
             {{pass}}
           {{pass}}
 

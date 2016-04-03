@@ -28,7 +28,7 @@
 
     // DataTable
     var table = $('#{{=item_name.replace(' ','-')}}-datatable').DataTable( {
-      stateSave: true,
+      // stateSave: true,
       responsive: true,
       columns: [
         {{for field in field_list:}}
@@ -73,7 +73,20 @@ view <i class="fa fa-search"></i> more information.
 If you're authorized, you can also edit <i class="fa fa-pencil"></i> the {{=item_name}}.
 </p>
 
-<table id="{{=item_name.replace(' ','-')}}-datatable" class="display compact" cellspacing="0" width="100%">
+<div class="row">
+
+  <!-- Messages -->
+  <div class="col-md-12">
+    <div class="box box-default">
+      <div class="box-header with-border">
+        <h3 class="box-title">Create {{=item_name}}</h3>
+        <div class="box-tools pull-right">
+          <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        </div><!-- /.box-tools -->
+      </div><!-- /.box-header -->
+      <div class="box-body">
+
+<table id="{{=item_name.replace(' ','-')}}-datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
   <thead>
     <tr>
       {{for field in field_list:}}
@@ -100,7 +113,7 @@ If you're authorized, you can also edit <i class="fa fa-pencil"></i> the {{=item
 
           {{for action in actions:}}
             {{if action['is_item_action'](row):}}
-              <a href='{{=action['url'](row)}}'>&nbsp;<i class="fa fa-{{=action['icon']}}"></i>&nbsp;</a>
+              <a href='{{=action['url'](row)}}'><i class="fa fa-{{=action['icon']}}"></i>&nbsp;</a>
             {{pass}}
           {{pass}}
 
@@ -109,3 +122,9 @@ If you're authorized, you can also edit <i class="fa fa-pencil"></i> the {{=item
     {{pass}}
   </tbody>
 </table>
+
+      </div><!-- /.box-body -->
+    </div><!-- /.box -->
+  </div><!-- /.col --><!-- /Documents -->
+
+</div><!-- /.row -->
