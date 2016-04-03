@@ -1,0 +1,40 @@
+
+
+
+
+various small bug fixes
+
+0.3 - March 25, 2016
+
+updated layout UI for new messaging dropdown menu
+- displays unread message count
+- displays list of unread messages with link to view message
+- displays links to view all messages and to create new message
+changed messages to use email associated with user
+inbound emails lookup user based on email or leave the user associated with the inbound email blank
+added ability to reply to messages in the app (in addition to create new messages and receive messages)
+
+Message system still needs:
+- ability to associate message to a 'context'
+- ability to send and receive attachments
+
+0.2 - March 24, 2016
+
+evaluated Mandrill/Mailchimp, Sendgrid, and Mailgun for transactional email
+selected Mailgun and completed signup and initial configuration
+added Message table to database
+added custom List, Create, View, and Edit pages for Messages
+developed outbound API for sending message
+developed inbound webhook for receiving messages
+added link to the "View All Messages" text in the messages dropdown in the header (the message list and message count that appear on the icon and dropdown menu are still hardcoded)
+tested locally using ngrok and deployed to the test server
+
+0.1 - March 23, 2016
+
+installed framework
+configured authentication and authorization system (including roles based authentication and auth)
+created initial database tables
+applied admin template: https://almsaeedstudio.com/themes/AdminLTE/index2.html
+configured generic admin pages
+created custom pages for list and CRUD for each database table (lists use http://www.datatables.net/)
+setup test server and deployed: https://mjbeller.pythonanywhere.com/starter
