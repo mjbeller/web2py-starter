@@ -27,7 +27,6 @@ def list():
         {'is_item_action': lambda item: True, 'url': lambda item: URL('edit.html', args=[item.id]), 'icon': 'pencil'},
     ]
 
-
     fields = [f for f in table]
     # fields = [
     #     table.id,
