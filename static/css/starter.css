@@ -1,0 +1,21 @@
+/*
+   fix alignment of labels and fields in web2py forms
+*/
+
+/* remove help-block in forms (change to js to remove if empty) */
+.help-block {
+  display: none;
+}
+
+/* remove padding from view form labels */
+.form-horizontal > .form-group > .readonly {
+  padding-top: 0px;
+}
+
+/* remove padding for ID field in edit forms */
+.form-horizontal > .form-group > .readonly + .form-control-static {
+  padding-top: 0px;
+  min-height: 0px;
+  padding-bottom: 0px;
+  margin-bottom: 0;
+}
