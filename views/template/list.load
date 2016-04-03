@@ -1,8 +1,5 @@
-{{response.files.append(URL('static', 'plugins/datatables/jquery.dataTables.min.css'))}}
-{{response.files.append(URL('static', 'plugins/datatables/jquery.dataTables.min.js'))}}
-
-{{response.files.append(URL('static', 'plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js'))}}
-{{response.files.append(URL('static', 'plugins/datatables/extensions/Responsive/css/dataTables.responsive.css'))}}
+{{response.files.append(URL('static', 'plugins/DataTables-1.10.11/datatables.min.css'))}}
+{{response.files.append(URL('static', 'plugins/DataTables-1.10.11/datatables.min.js'))}}
 
 <style>
   tfoot input {
