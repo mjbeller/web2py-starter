@@ -1,10 +1,17 @@
+##
+## CHANGELOG
+##
 
+### Version 0.4 - April 3
 
-
-
+add theme box around all create, edit, and view forms and lists
+upgrade all list views to bootstrap
+upgraded DataTables.net to 1.10.11 and corresponding extensions
+add list actions dictionary for list .html and .load and controllers
+added CSS styling to fix web2py forms label and fields alignment for Bootstrap 3
 various small bug fixes
 
-0.3 - March 25, 2016
+### Version 0.3 - March 25, 2016
 
 updated layout UI for new messaging dropdown menu
 - displays unread message count
@@ -18,7 +25,7 @@ Message system still needs:
 - ability to associate message to a 'context'
 - ability to send and receive attachments
 
-0.2 - March 24, 2016
+### Version 0.2 - March 24, 2016
 
 evaluated Mandrill/Mailchimp, Sendgrid, and Mailgun for transactional email
 selected Mailgun and completed signup and initial configuration
@@ -29,7 +36,7 @@ developed inbound webhook for receiving messages
 added link to the "View All Messages" text in the messages dropdown in the header (the message list and message count that appear on the icon and dropdown menu are still hardcoded)
 tested locally using ngrok and deployed to the test server
 
-0.1 - March 23, 2016
+### Version 0.1 - March 23, 2016
 
 installed framework
 configured authentication and authorization system (including roles based authentication and auth)
