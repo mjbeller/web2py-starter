@@ -10,7 +10,7 @@ response.logo = A(B('web', SPAN(2), 'py'), XML('&trade;&nbsp;'),
 
 # default page title that appears in browser tabs and bookmarks
 response.title = '%s: %s %s' % (
-    request.application.replace('_', ' ').title(),
+    myconf.get('app.abbreviation'),
     request.controller.replace('_', ' ').title(),
     request.function.replace('_', ' ').title()
 )
