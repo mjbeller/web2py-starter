@@ -1,4 +1,14 @@
 /*
+   fix dropdown login menu background
+*/
+
+@media (max-width: 991px) {
+  .navbar-custom-menu>.navbar-nav>li>.dropdown-menu {
+    background: #3C8DBC;
+  }
+}
+
+/*
    fix alignment of labels and fields in web2py forms
 */
 
