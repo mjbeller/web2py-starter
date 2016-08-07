@@ -1,3 +1,9 @@
+{{import breadcrumbs}}
+{{breadcrumbs.append()}}
+{{from bookmark import Bookmark}}
+{{#response.bookmark = bookmark.create()}}
+{{response.bookmark = Bookmark()}}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +16,7 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
   <link rel="shortcut icon" href="{{=URL('static','images/favicon.ico')}}" type="image/x-icon">
-  <link rel="apple-touch-icon" href="{{=URL('static','images/favicon.png')}}">
+  <link rel="apple-touch-icon" href="{{=URL('static','images/favicon.ico')}}">
 
   <!-- Bootstrap 3.3.5 -->
   <link rel="stylesheet" href="{{=URL('static','plugins/bootstrap/css/bootstrap.min.css')}}">
@@ -45,6 +51,8 @@
   <link rel="stylesheet" href="{{=URL('static','css/web2py.css')}}">
   <link rel="stylesheet" href="{{=URL('static','css/web2py-bootstrap3.css')}}">
   <link rel="stylesheet" href="{{=URL('static','css/starter.css')}}">
+  <link rel="stylesheet" href="{{=URL('static','css/contract.css')}}">
+  <link rel="stylesheet" href="{{=URL('static','css/bookmark.css')}}">
 
   {{include 'web2py_ajax.html'}} <!-- this includes jquery.js, calendar.js/.css and web2py.js -->
 
@@ -80,9 +88,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-blue sidebar-mini">
-
-{{hidden = None if auth.user else 'hidden'}}
+<body class="fixed hold-transition skin-blue sidebar-mini">
 
 <div class="wrapper">
 
@@ -107,223 +113,208 @@ desired effect
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
 
-          {{if auth.user:}}
-            {{=LOAD('message', 'menu.load', ajax=True, content='')}}
+          {{if auth.user and is_user_member('admin'):}}
+
+              <!-- Messages Menu -->
+              {{=LOAD('message', 'menu.load', ajax=True, content='')}}
+
+              <!-- Notifications Menu -->
+              <li class="dropdown notifications-menu">
+                <!-- Menu toggle button -->
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-bell-o"></i>
+                  <span class="label label-warning">1</span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li class="header">You have 1 notifications</li>
+                  <li>
+                    <!-- Inner Menu: contains the notifications -->
+                    <ul class="menu">
+                      <li><!-- start notification -->
+                        <a href="#">
+                          <i class="fa fa-users text-aqua"></i> ABC Investments signed PSA for Loan 1234
+                        </a>
+                      </li>
+                      <!-- end notification -->
+                    </ul>
+                  </li>
+                  <li class="footer"><a href="#">View all</a></li>
+                </ul>
+              </li> <!-- /Notifications Menu -->
+
+              <!-- Tasks Menu -->
+              <li class="dropdown tasks-menu">
+                <!-- Menu Toggle Button -->
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-flag-o"></i>
+                  <span class="label label-danger">9</span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li class="header">You have 9 tasks</li>
+                  <li>
+                    <!-- Inner menu: contains the tasks -->
+                    <ul class="menu">
+                      <li><!-- Task item -->
+                        <a href="#">
+                          <!-- Task title and progress text -->
+                          <h3>
+                            Review and complete PSA for Loan 1234
+                            <small class="pull-right">20%</small>
+                          </h3>
+                          <!-- The progress bar -->
+                          <div class="progress xs">
+                            <!-- Change the css width attribute to simulate progress -->
+                            <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                              <span class="sr-only">20% Complete</span>
+                            </div>
+                          </div>
+                        </a>
+                      </li>
+                      <!-- end task item -->
+                    </ul>
+                  </li>
+                  <li class="footer">
+                    <a href="#">View all tasks</a>
+                  </li>
+                </ul>
+              </li> <!-- /Tasks Menu -->
+
           {{pass}}
 
-          <!-- Notifications Menu -->
-          <li class="dropdown notifications-menu {{=hidden}}">
-            <!-- Menu toggle button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">10</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 10 notifications</li>
-              <li>
-                <!-- Inner Menu: contains the notifications -->
-                <ul class="menu">
-                  <li><!-- start notification -->
-                    <a href="#">
-                      <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                    </a>
-                  </li>
-                  <!-- end notification -->
-                </ul>
-              </li>
-              <li class="footer"><a href="#">View all</a></li>
-            </ul>
-          </li>
+          {{if auth.user:}}
 
-          <!-- Tasks Menu -->
-          <li class="dropdown tasks-menu {{=hidden}}">
-            <!-- Menu Toggle Button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-flag-o"></i>
-              <span class="label label-danger">9</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 9 tasks</li>
-              <li>
-                <!-- Inner menu: contains the tasks -->
-                <ul class="menu">
-                  <li><!-- Task item -->
-                    <a href="#">
-                      <!-- Task title and progress text -->
-                      <h3>
-                        Design some buttons
-                        <small class="pull-right">20%</small>
-                      </h3>
-                      <!-- The progress bar -->
-                      <div class="progress xs">
-                        <!-- Change the css width attribute to simulate progress -->
-                        <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">20% Complete</span>
-                        </div>
+              <!-- User Account Menu -->
+              <li class="dropdown user user-menu">
+                <!-- Menu Toggle Button -->
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <!-- The user image in the navbar-->
+                  <img src="{{=URL('static','img/avatar5.png')}}" class="user-image" alt="User Image">
+                  <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                  <span class="hidden-xs">{{=auth.user.first_name}} {{=auth.user.last_name}} <span class="caret"></span></span>
+                </a>
+
+                <ul class="dropdown-menu">
+                  <!-- User Menu Header -->
+                  <li class="user-header">
+                    <img src="{{=URL('static','img/avatar5.png')}}" class="img-circle" alt="User Image">
+                    <p>
+                      {{=auth.user.first_name}} {{=auth.user.last_name}}
+                      <small>{{=' | '.join(auth.user_groups.values())}}</small>
+                    </p>
+                  </li>
+                  <!-- User Menu Body -->
+                  <li class="user-body hidden">
+                    <div class="row">
+                      <div class="col-xs-4 text-center">
+                        <a href="{{=URL('default', 'user', args=['profile'], vars={'_next': URL()})}}"><i class="fa fa-user"></i><br>Profile</a>
                       </div>
-                    </a>
+                      <div class="col-xs-4 text-center">
+                        <a href="{{=URL('default', 'user', args=['change_password'], vars={'_next': URL()})}}"><i class="fa fa-key"></i><br>Password</a>
+                      </div>
+                      <div class="col-xs-4 text-center">
+                        <a href="{{=URL('default', 'user', args=['logout'], vars={'_next': URL()})}}"><i class="fa fa-sign-out"></i><br>Log&nbsp;Out</a>
+                      </div>
+                    </div><!-- /.row -->
                   </li>
-                  <!-- end task item -->
+                  <li class="user-footer">
+                    <div class="row">
+                      <div class="col-xs-4 text-center">
+                        <a href="{{=URL('default', 'user', args=['profile'], vars={'_next': URL()})}}"><i class="fa fa-user"></i><br>Profile</a>
+                      </div>
+                      <div class="col-xs-4 text-center">
+                        <a href="{{=URL('default', 'user', args=['change_password'], vars={'_next': URL()})}}"><i class="fa fa-key"></i><br>Password</a>
+                      </div>
+                      <div class="col-xs-4 text-center">
+                        <a href="{{=URL('default', 'user', args=['logout'], vars={'_next': URL()})}}"><i class="fa fa-sign-out"></i><br>Log&nbsp;Out</a>
+                      </div>
+                    </div><!-- /.row -->
+                  </li>
+                  <!-- User Menu Footer-->
+                  <li class="user-footer hidden">
+                    <div class="pull-left">
+                      <a href="{{=URL('default', 'user', args=['profile'], vars={'_next': URL()})}}" class="btn btn-default btn-flat">Profile</a>
+                    </div>
+                    <div class="">
+                      <a href="{{=URL('default', 'user', args=['change_password'], vars={'_next': URL()})}}" class="btn btn-default btn-flat">Password</a>
+                    </div>
+                    <div class="pull-right">
+                      <a href="{{=URL('default', 'user', args=['logout'], vars={'_next': URL()})}}" class="btn btn-default btn-flat">Sign out</a>
+                    </div>
+                  </li>
                 </ul>
-              </li>
-              <li class="footer">
-                <a href="#">View all tasks</a>
-              </li>
-            </ul>
-          </li> <!-- /Tasks Menu -->
 
-          <!-- User Account Menu -->
-          {{if auth.user:}}
-          <li class="dropdown user user-menu {{=hidden}}">
-            <!-- Menu Toggle Button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <!-- The user image in the navbar-->
-              <img src="{{=URL('static','img/user2-160x160.jpg')}}" class="user-image" alt="User Image">
-              <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">{{=auth.user.first_name}} {{=auth.user.last_name}} <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- The user image in the menu -->
-              <li class="user-header">
-                <img src="{{=URL('static','img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
-                <p>
-                  {{=auth.user.first_name}} {{=auth.user.last_name}}
-                  <small>{{=auth.user_groups}}, Member since Nov. 2012</small>
-                </p>
+              </li> <!-- /User Account Menu -->
+
+              <!-- Control Sidebar Toggle Button -->
+              <li>
+                  <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
               </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="{{=URL('default', 'user', args=['profile'], vars={'_next': URL()})}}"><i class="fa fa-user"></i><br>Profile</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="{{=URL('default', 'user', args=['change_password'], vars={'_next': URL()})}}"><i class="fa fa-key"></i><br>Password</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="{{=URL('default', 'user', args=['logout'], vars={'_next': URL()})}}"><i class="fa fa-sign-out"></i><br>Log&nbsp;Out</a>
-                  </div>
-                </div>
-                <!-- /.row -->
-              </li>
-              <!-- Menu Footer-->
-              <li class="user-footer hidden">
-                <div class="pull-left">
-                  <a href="{{=URL('default', 'user', args=['profile'], vars={'_next': URL()})}}" class="btn btn-default btn-flat">Profile</a>
-                </div>
-                <div class="">
-                  <a href="{{=URL('default', 'user', args=['change_password'], vars={'_next': URL()})}}" class="btn btn-default btn-flat">Password</a>
-                </div>
-                <div class="pull-right">
-                  <a href="{{=URL('default', 'user', args=['logout'], vars={'_next': URL()})}}" class="btn btn-default btn-flat">Sign out</a>
-                </div>
-              </li>
-            </ul>
-          </li> <!-- /User Account Menu -->
+
           {{else:}}
-          <!-- Log In Menu -->
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Log In <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="{{=URL('default', 'user', args=['register'], vars={'_next': URL()})}}"><i class="fa fa-pencil-square-o"></i> Sign Up</a></li>
-              <li><a href="{{=URL('default', 'user', args=['request_reset_password'], vars={'_next': URL()})}}"><i class="fa fa-question"></i> Forgot Password?</a></li>
-              <li><a href="{{=URL('default', 'user', args=['retrieve_username'], vars={'_next': URL()})}}"><i class="fa fa-question"></i> Forgot Username?</a></li>
-              <li class="divider"></li>
-              <li><a href="{{=URL('default', 'user', args=['login'], vars={'_next': URL()})}}"><i class="fa fa-sign-in"></i> Log In</a></li>
-            </ul>
-          </li> <!-- /Log In Menu -->
+
+              <!-- Log In Menu -->
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Log In <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  {{if not 'register' in auth.settings.actions_disabled:}}
+                    <li><a href="{{=URL('default', 'user', args=['register'], vars={'_next': URL()})}}"><i class="fa fa-pencil-square-o"></i> Sign Up</a></li>
+                  {{pass}}
+                  <li><a href="{{=URL('default', 'user', args=['request_reset_password'], vars={'_next': URL()})}}"><i class="fa fa-question"></i> Forgot Password?</a></li>
+                  <li><a href="{{=URL('default', 'user', args=['retrieve_username'], vars={'_next': URL()})}}"><i class="fa fa-question"></i> Forgot Username?</a></li>
+                  <li class="divider"></li>
+                  <li><a href="{{=URL('default', 'user', args=['login'], vars={'_next': URL()})}}"><i class="fa fa-sign-in"></i> Log In</a></li>
+                </ul>
+              </li> <!-- /Log In Menu -->
+
           {{pass}}
 
-          {{# 'auth' in globals() and auth.navbar('Welcome',mode='dropdown') or ''}}
-
-          <!-- Control Sidebar Toggle Button -->
-          <li class="{{=hidden}}">
-            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-          </li>
-        </ul>
-      </div>
+        </ul> <!-- /.navbar-nav -->
+      </div> <!-- /.navbar-custom-menu -->
     </nav>
   </header>
+
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
 
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
 
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel {{=hidden}}">
-        <div class="pull-left image">
-          <img src="{{=URL('static','img/avatar5.png')}}" class="img-circle" alt="User Image">
-        </div>
-        <div class="pull-left info">
-          <p>
-            {{if auth.user:}}
-              {{=auth.user.first_name}} {{=auth.user.last_name}}
-            {{pass}}
-          </p>
-          <!-- Status -->
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-        </div>
-      </div>
-      <!--  /sidebar user panel -->
+      {{if auth.user:}}
 
-      <!-- search form (Optional) -->
-      <form action="{{=URL('default', 'search')}}" method="get" class="sidebar-form {{=hidden}}">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
-              <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /search form -->
+          <!-- Sidebar user panel (optional) -->
+          <div class="user-panel">
+              <div class="pull-left image">
+                  <img src="{{=URL('static','img/avatar5.png')}}" class="img-circle" alt="User Image">
+              </div>
+              <div class="pull-left info">
+                  <p>
+                  {{=auth.user.first_name}} {{=auth.user.last_name}}
+                  </p>
+                  <!-- Status -->
+                  <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+              </div>
+          </div>
+          <!--  /sidebar user panel -->
+
+          <!-- search form (Optional) -->
+          {{if auth.user and is_user_member('admin'):}}
+              <form action="{{=URL('default', 'search')}}" method="get" class="sidebar-form">
+                  <div class="input-group">
+                      <input type="text" name="q" class="form-control" placeholder="Search...">
+                      <span class="input-group-btn">
+                        <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                            <i class="fa fa-search"></i>
+                        </button>
+                      </span>
+                  </div>
+              </form>
+          {{pass}}
+          <!-- /search form -->
+
+      {{pass}}
 
       <!-- Sidebar Menu -->
-      <ul class="sidebar-menu {{=hidden}}">
-        <li class="header">CATEGORIES</li>
-        <li class="treeview">
-          {{=sidebar_menu_item('Dogs', icon='circle-o')}}
-          <ul class="treeview-menu">
-            {{=sidebar_menu_item('View Dogs', URL('dog', 'list'), icon='list')}}
-            {{=sidebar_menu_item('Create Dog', URL('dog', 'create'), icon='pencil-square-o')}}
-          </ul>
-        </li>
-        <li class="treeview">
-          {{=sidebar_menu_item('Dog Lovers', icon='circle-o')}}
-          <ul class="treeview-menu">
-            {{=sidebar_menu_item('View Dog Lovers', URL('person', 'list'), icon='list')}}
-            {{=sidebar_menu_item('Create Dog Lover', URL('person', 'create'), icon='pencil-square-o')}}
-          </ul>
-        </li>
-        <li class="treeview">
-          {{=sidebar_menu_item('Dog Owner', icon='circle-o')}}
-          <ul class="treeview-menu">
-            {{=sidebar_menu_item('View Dog Owners', URL('dog_owner', 'list'), icon='list')}}
-            {{=sidebar_menu_item('Create Dog Owner', URL('dog_owner', 'create'), icon='pencil-square-o')}}
-          </ul>
-        </li>
-      </ul>
-
-      <ul class="sidebar-menu">
-        <li class="header">COMPANY</li>
-        {{=sidebar_menu_item('About', URL('default', 'about'), icon='book')}}
-        {{=sidebar_menu_item('Privacy', URL('default', 'privacy'), icon='book')}}
-        {{=sidebar_menu_item('Terms of Use', URL('default', 'tou'), icon='book')}}
-      </ul>
-
-      <ul class="sidebar-menu {{=hidden}}">
-        <li class="header">ADMIN</li>
-        <li class="treeview">
-          <a href="#"><i class="fa fa-gears"></i> <span>Admin</span> <i class="fa fa-angle-left pull-right"></i></a>
-          <ul class="treeview-menu">
-            {{=sidebar_menu_item('Manage Users', URL('appadmin','manage/users'), icon='users')}}
-            {{=sidebar_menu_item('Manage Auth', URL('appadmin','manage/auth'), icon='wrench')}}
-            {{=sidebar_menu_item('Manage Database', URL('appadmin','manage/db'), icon='database')}}
-            {{=sidebar_menu_item('Super Admin!', URL('appadmin','#'), icon='cog')}}
-          </ul>
-        </li>
-      </ul>
+      {{include 'layout_menu.html'}}
       <!-- /Sidebar Menu -->
 
     </section>
@@ -332,8 +323,8 @@ desired effect
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
 
+    <!-- response.flash message -->
     {{if response.flash:}}
     <section class="content-header">
       <div class="alert alert-warning alert-dismissible fade in" role="alert">
@@ -345,16 +336,25 @@ desired effect
     </section>
     {{pass}}
 
+    <!-- Content Header (Page header) -->
     {{if response.view_title:}}
     <section class="content-header">
+
       <h1>
+
         {{=response.view_title}}
         <small>{{=response.subtitle or ''}}</small>
+
+        {{include 'bookmark/bookmark_button.html'}}
+
       </h1>
+
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-        <li class="active">Here</li>
+        {{for crumb in session.breadcrumbs:}}
+          <li><a href="{{=crumb['url']}}"><i class="fa fa-{{=crumb['icon']}}"></i>{{=crumb['label']}}</a></li>
+        {{pass}}
       </ol>
+
     </section>
     {{pass}}
 
@@ -362,59 +362,79 @@ desired effect
     <section class="content">
 
       <!-- Your Page Content Here -->
+      <div class="row">
 
         {{if left_sidebar_enabled:}}
-          <div>
+          <div class="col-md-4 col-sm-6 col-xs-12">
               {{block left_sidebar}}
               {{end}}
           </div>
         {{pass}}
 
-        <div>
+        <div class="col-md-12 col-sm-12 col-xs-12">
           {{block center}}
             {{include}}
           {{end}}
         </div>
 
         {{if right_sidebar_enabled:}}
-          <div>
+          <div class="col-md-4 col-sm-6 col-xs-12">
               {{block right_sidebar}}
               {{end}}
           </div>
         {{pass}}
 
+      </div>
+
     </section>
     <!-- /.content -->
+
   </div>
   <!-- /.content-wrapper -->
 
   <!-- Main Footer -->
   <footer class="main-footer">
+
     <!-- To the right -->
+    {{if auth.user and is_user_member('admin'):}}
     <div class="pull-right hidden-xs">
+      {{include 'plugin_create_trello_card.html'}}
       <a href="{{=URL('default', 'changelog')}}">Version {{=response.version}}</a>
     </div>
+    {{pass}}
+
     <!-- Default to the left -->
-    <strong>
-      Copyright &copy;
-      <script>document.write(new Date().getFullYear());</script>
-      <a href="#">{{=response.company}}</a>.
-    </strong> All rights reserved.
+    <div>
+      <strong>
+        Copyright &copy;
+        <script>document.write(new Date().getFullYear());</script>
+        <a href="#">{{=response.company}}</a>.
+      </strong> All rights reserved.
+    </div>
+
+    {{if request.is_local:}}
+    <div id="response-toolbar">
+      <hr>
+      {{=response.toolbar()}}
+    </div>
+    {{pass}}
+
   </footer>
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Create the tabs -->
     <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-      <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-      <li class="active"><a href="#control-sidebar-favorites-tab" data-toggle="tab"><i class="fa fa-heart"></i></a></li>
-      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-wrench"></i></a></li>
+      <li class="{{=user_visibility('Admin')}}"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+      <li class="active"><a href="#control-sidebar-bookmarks-tab" data-toggle="tab"><i class="fa fa-bookmark"></i></a></li>
+      <li class="{{=user_visibility('Admin')}}"><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-wrench"></i></a></li>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
 
       <!-- Home tab content -->
       <div class="tab-pane" id="control-sidebar-home-tab">
+
         <h3 class="control-sidebar-heading">Recent Activity</h3>
         <ul class="control-sidebar-menu">
           <li>
@@ -436,7 +456,7 @@ desired effect
           <li>
             <a href="javascript::;">
               <h4 class="control-sidebar-subheading">
-                Loan: Big Miami Property Due Diligence
+                Deal: Big Miami Property Due Diligence
                 <span class="label label-danger pull-right">70%</span>
               </h4>
 
@@ -447,40 +467,21 @@ desired effect
           </li>
         </ul>
         <!-- /.control-sidebar-menu -->
+
       </div><!-- /Home tab content -->
       <!-- /.tab-pane -->
 
-      <!-- Favorites tab content -->
-      <div class="tab-pane active" id="control-sidebar-favorites-tab">
-        <h3 class="control-sidebar-heading">Favorites</h3>
-        <ul class="control-sidebar-menu">
-          <li>
+      <!-- Bookmarks tab content -->
+      <div class="tab-pane active" id="control-sidebar-bookmarks-tab">
+        <h3 class="control-sidebar-heading">Bookmarks</h3>
 
-            <a href="javascript::;">
-              <i class="menu-icon fa fa-suitcase bg-yellow"></i>
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">blah</h4>
-                <p>mini blah</p>
-              </div>
-            </a>
-            <a href="javascript::;">
-              <i class="menu-icon fa fa-building bg-red"></i>
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">blah</h4>
-                <p>mini blah</p>
-              </div>
-            </a>
-            <a href="javascript::;">
-              <i class="menu-icon fa fa-institution bg-green"></i>
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">blah</h4>
-                <p>mini blah</p>
-              </div>
-            </a>
+        <div id="bookmark_list">
+          {{if auth.user:}}
+            {{=LOAD('bookmark', 'list.load', ajax=True, content='loading ...')}}
+          {{pass}}
+        </div>
 
-          </li>
-        </ul>
-      </div><!-- /Favorites tab content -->
+      </div><!-- /Bookmarks tab content -->
       <!-- /.tab-pane -->
 
       <!-- Settings tab content -->
@@ -497,29 +498,19 @@ desired effect
             <p>
               Some information about this general settings option
             </p>
-          </div>
-          <!-- /.form-group -->
+          </div><!-- /.form-group -->
+
         </form>
-      </div><!-- /Settings tab content -->
-      <!-- /.tab-pane -->
+      </div><!-- /.tab-pane -->
 
     </div>
-  </aside>
-  <!-- /.control-sidebar -->
+  </aside><!-- /.control-sidebar -->
+
   <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
+
 </div><!-- /.wrapper -->
-
-
-{{if request.is_local:}}
-  <hr>
-  <div class="row">
-    <div class="col-md-12" width=100% word-break="break-all">{{=response.toolbar()}}</div>
-  </div>
-{{pass}}
-
-<!-- ./wrapper -->
 
 <!-- REQUIRED JS SCRIPTS *** moved to head *** -->
 
@@ -527,5 +518,6 @@ desired effect
      Both of these plugins are recommended to enhance the
      user experience. Slimscroll is required when using the
      fixed layout. -->
+
 </body>
 </html>

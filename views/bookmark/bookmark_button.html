@@ -1,0 +1,13 @@
+{{if auth.user:}}
+<button type="button"
+  class="bookmark-btn btn btn-default btn-sm {{=response.bookmark.is_active()}}
+    {{# ="active" if auth.user and auth.user.bookmarks and response.bookmark['key'] in auth.user.bookmarks else "inactive"}}"
+  data-ajax-add="{{=URL('bookmark', 'add')}}"
+  data-ajax-delete="{{=URL('bookmark', 'delete')}}"
+  data-bookmark-obj="{{=response.bookmark}}">
+  <!-- data-context="{{=request.controller}}"
+  data-context-action="{{=request.function}}"
+  data-context-id="{{=request.args[0] if request.args else 0}}" -->
+
+</button>
+{{pass}}

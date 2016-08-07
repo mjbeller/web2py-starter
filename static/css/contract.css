@@ -1,0 +1,58 @@
+@page {
+  @bottom-center {
+    content: "Page " counter(page) " of " counter(pages);
+  }
+}
+
+h1, h2, h3, h4, h5, .contract-section {
+  page-break-after: avoid;
+  page-break-inside: avoid;
+}
+
+.contract * {
+  font-family: Times;
+  line-height: 120%;
+}
+
+/* not used - change to using h4 */
+.contract-section {
+  font-weight: bold;
+}
+
+.contract-signature-block {
+  page-break-inside: avoid;
+  margin: 20px 0px 20px 0px;
+}
+
+.contract-signature-block-form-group {
+  margin: 20px 20px 0px 20px;
+  padding: 20px;
+  background-color: #d9edf7;
+}
+
+.contract h1 {
+  margin-top: 100px;
+  text-align: center;
+}
+
+.contract h2 {
+  page-break-before: always;
+  text-align: center;
+}
+
+.contract h3 {
+  text-align: center;
+}
+
+.contract img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto
+}
+
+.contract img.contract-signature {
+  display: inline;
+  margin-left: 0;
+  border-bottom: 1px solid black;
+  width: 100px;
+}

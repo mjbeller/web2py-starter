@@ -1,0 +1,31 @@
+/* hide default button and show contents only */
+
+.bookmark-btn {
+  -webkit-appearance: none;
+  outline: none;
+  border: 0;
+  background: transparent;
+}
+
+.bookmark-btn.active {
+  background:transparent;
+}
+
+/*
+https://dusted.codes/making-font-awesome-awesome-using-icons-without-i-tags
+
+f097 fa-bookmark-o
+f02e fa-bookmark
+*/
+
+.bookmark-btn.active::before {
+  content: "\f02e";
+  font-family: FontAwesome;
+  color: red;
+  background: transparent;
+}
+
+.bookmark-btn::before {
+  content: "\f097";
+  font-family: FontAwesome;
+}

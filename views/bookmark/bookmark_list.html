@@ -1,0 +1,33 @@
+{{from bookmark import Bookmark}}
+
+<ul class="control-sidebar-menu">
+    <li>
+        {{if auth.user and Bookmark.list():}}
+            {{for k, v in Bookmark.list().items():}}
+                <a href="{{=URL(v['c'], v['f'], extension='html', args=v['i'])}}">
+                    <i class="menu-icon fa fa-bookmark bg-red"></i>
+                    <div class="menu-info">
+                        <h4 class="control-sidebar-subheading">{{=v['t']}}</h4>
+                        <p>{{=v['u']}}</p>
+                    </div>
+                </a>
+            {{pass}}
+        {{pass}}
+    </li>
+</ul>
+
+<ul class="control-sidebar-menu hidden">
+    <li>
+        {{#if auth.user and auth.user.bookmarks:}}
+            {{#for k, v in auth.user.bookmarks.items():}}
+                <a href="{{#=URL(v['c'], v['f'], extension='html', args=v['i'])}}">
+                    <i class="menu-icon fa fa-bookmark bg-red"></i>
+                    <div class="menu-info">
+                        <h4 class="control-sidebar-subheading">{{#=v['t']}}</h4>
+                        <p>{{#=v['u']}}</p>
+                    </div>
+                </a>
+            {{#pass}}
+        {{#pass}}
+    </li>
+</ul>

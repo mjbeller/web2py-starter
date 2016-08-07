@@ -7,7 +7,14 @@
     var ajax_error_500 = '{{=T.M('An error occured, please [[reload %s]] the page') % URL(args=request.args, vars=request.get_vars) }}'
     //--></script>
 {{
-response.files.insert(3,URL('static','js/web2py.js'))
+# response.files.insert(1,URL('static','css/calendar.css'))
+# response.files.insert(2,URL('static','js/calendar.js'))
+response.files.insert(1,URL('static','plugins/slimScroll/jquery.slimscroll.min.js'))
+response.files.insert(2,URL('static','plugins/datepicker/datepicker3.css'))
+response.files.insert(3,URL('static','plugins/datepicker/bootstrap-datepicker.js'))
+response.files.insert(4,URL('static','js/web2py.js'))
+response.files.insert(4,URL('static','js/starter.js'))
+response.files.insert(5,URL('static','js/bookmark.js'))
 response.include_meta()
 response.include_files()
 }}

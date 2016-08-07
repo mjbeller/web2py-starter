@@ -1,0 +1,204 @@
+<a
+  href="#"
+  data-toggle="modal"
+  data-target="#createTrelloCardModal"
+  data-card-list-name="bug"
+  data-card-list-id="56fc9620f329ac03d8432e08">
+  <i class="fa fa-bug"></i>&nbsp;
+</a>
+<a
+  href="#"
+  data-toggle="modal"
+  data-target="#createTrelloCardModal"
+  data-card-list-name="issue"
+  data-card-list-id="56fc961d6aa50ca42fc0ffba">
+  <i class="fa fa-question"></i>&nbsp;
+</a>
+<a
+  href="#"
+  data-toggle="modal"
+  data-target="#createTrelloCardModal"
+  data-card-list-name="idea"
+  data-card-list-id="56fc96137644044602902941">
+  <i class="fa fa-lightbulb-o"></i>&nbsp;
+</a>
+
+<!-- the div that represents the modal dialog -->
+<div class="modal fade" id="createTrelloCardModal" tabindex="-1" role="dialog" aria-labelledby="createTrelloCardModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="createTrelloCardModalLabel">Create Trello Card</h4>
+      </div>
+      <div class="modal-body">
+        <form id="createTrelloCardForm">
+
+          <div class="form-group">
+            <label for="card-name" class="control-label">Name:</label>
+            <input type="text" class="form-control" id="card-name">
+          </div>
+          <div class="form-group">
+            <label for="card-description" class="control-label">Description:</label>
+            <textarea class="form-control" id="card-description"></textarea>
+          </div>
+
+          <div class="form-group">
+            <div class="radio">
+              <label>
+                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                Priority 1! &nbsp;Emergency, I can't perform my job, <br>drop everything and get this done now!  Release ASAP!
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                Priority 2! &nbsp;Important, add to current development activities <br>and release with current activities.
+              </label>
+            </div>
+            <div class="radio disabled">
+              <label>
+                <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+                Priority 3! &nbsp;Mostly cosmetic, <br>let's not forget about it but let's not rush.
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="card-list-name" class="control-label">List Name:</label>
+            <input type="text" class="form-control" id="card-list-name" readonly>
+          </div>
+          <div class="form-group hidden">
+            <label for="card-list-id" class="control-label">List Id:</label>
+            <input type="text" class="form-control" id="card-list-id">
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="createTrelloCardSubmit">Create Trello Card</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://api.trello.com/1/client.js?key={{=trello_api_key}}"></script>
+
+<script>
+  $(document).ready(function() {
+
+    $('#createTrelloCardModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var cardListName = button.data('card-list-name') // Extract info from data-* attributes
+      var cardListId = button.data('card-list-id') // Extract info from data-* attributes
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this)
+      modal.find('.modal-title').text('Create Trello Card in the ' + cardListName + 's List')
+      modal.find('.modal-body #card-list-name').val(cardListName)
+      modal.find('.modal-body #card-list-id').val(cardListId)
+
+      // set placeholders
+      // if (cardListName == 'bug') {
+      //   modal.find('.modal-body #card-name').attr("placeholder", "Oooops ... Sorry for the problem")
+      // } else if (cardListName == 'issue') {
+      //   modal.find('.modal-body #card-name').attr("placeholder", "What is the issue in the form of a question")
+      // } else if (cardListName == 'idea') {
+      //   modal.find('.modal-body #card-name').attr("placeholder", "What's your big idea?")
+      // } else {
+      //   modal.find('.modal-body #card-name').attr("placeholder", "Enter the card name")
+      // }
+
+      var list_placeholders = {
+          'bug': 'Oooops ... Sorry for the problem',
+          'issue': 'What is the issue in the form of a question',
+          'idea': "What's your big idea?"
+      };
+      modal.find('.modal-body #card-name').attr("placeholder", list_placeholders[cardListName])
+
+    });
+
+    // http://stackoverflow.com/questions/14375144/jquery-prevent-default-then-continue-default
+    // http://www.superglobals.net/submit-form-bootstrap-modal/
+
+    $("#createTrelloCardForm").submit(function(e) {
+      // var postData = $(this).serializeArray();
+      // var formURL = $(this).attr("action");
+      // $.ajax({
+      //     url: formURL,
+      //     type: "POST",
+      //     data: postData,
+      //     success: function(data, textStatus, jqXHR) {
+      //         $('#createTrelloCardModal .modal-header .modal-title').html("Result");
+      //         $('#createTrelloCardModal .modal-body').html(data);
+      //         $("#createTrelloCardSubmit").remove();
+      //     },
+      //     error: function(jqXHR, status, error) {
+      //         console.log(status + ": " + error);
+      //     }
+      // });
+
+      // Trello api
+      // https://developers.trello.com/get-started/start-building
+
+      var authenticationSuccess = function() { console.log('Successful authentication'); };
+      var authenticationFailure = function() { console.log('Failed authentication'); };
+
+      Trello.authorize({
+        type: popup,
+        name: 'MCG Portal',
+        scope: {
+          read: true,
+          write: true },
+        expiration: 'never',
+        success: authenticationSuccess,
+        error: authenticationFailure
+      });
+
+      var creationSuccess = function(data) {
+        console.log('Card created successfully. Data returned:' + JSON.stringify(data));
+      };
+      var creationFailure = function(data) {
+        console.log('Card created UNsuccessfully. Data returned:' + JSON.stringify(data));
+      };
+
+      // use list name to find list id (OR pass list id in button data attr)
+      var list_ids = {
+          'bug': '56fc9620f329ac03d8432e08',
+          'idea': '56fc96137644044602902941',
+          'issue': '56fc961d6aa50ca42fc0ffba'
+      };
+      var list_id = list_ids[$('#createTrelloCardForm #card-list-name').val()]
+
+      // build description
+      var card_description =
+        $('#createTrelloCardForm #card-description').val() +
+        "\n\n" +
+        "URL: " + window.location.href +
+        "\n" +
+        "Referrer: " + document.referrer
+
+      var newCard = {
+        name: $('#createTrelloCardForm #card-name').val(),
+        desc: card_description,
+        idList: $('#createTrelloCardForm #card-list-id').val(),
+        pos: 'top'
+      };
+
+      Trello.post('/cards/', newCard, creationSuccess, creationFailure);
+
+      // todo: hide submit button, display message - in creationSuccess?
+
+      $("#createTrelloCardForm")[0].reset()
+      e.preventDefault();
+    });
+
+    $("#createTrelloCardSubmit").on('click', function() {
+
+      $("#createTrelloCardForm").submit();
+
+    });
+
+  });
+</script>
