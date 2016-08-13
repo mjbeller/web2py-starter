@@ -105,10 +105,12 @@ desired effect
 
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top" role="navigation">
+
       <!-- Sidebar toggle button-->
       <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
         <span class="sr-only">Toggle navigation</span>
       </a>
+
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
@@ -185,6 +187,7 @@ desired effect
 
               <!-- User Account Menu -->
               <li class="dropdown user user-menu">
+
                 <!-- Menu Toggle Button -->
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <!-- The user image in the navbar-->
@@ -203,7 +206,7 @@ desired effect
                     </p>
                   </li>
                   <!-- User Menu Body -->
-                  <li class="user-body hidden">
+                  <li class="user-body">
                     <div class="row">
                       <div class="col-xs-4 text-center">
                         <a href="{{=URL('default', 'user', args=['profile'], vars={'_next': URL()})}}"><i class="fa fa-user"></i><br>Profile</a>
@@ -214,32 +217,8 @@ desired effect
                       <div class="col-xs-4 text-center">
                         <a href="{{=URL('default', 'user', args=['logout'], vars={'_next': URL()})}}"><i class="fa fa-sign-out"></i><br>Log&nbsp;Out</a>
                       </div>
-                    </div><!-- /.row -->
-                  </li>
-                  <li class="user-footer">
-                    <div class="row">
-                      <div class="col-xs-4 text-center">
-                        <a href="{{=URL('default', 'user', args=['profile'], vars={'_next': URL()})}}"><i class="fa fa-user"></i><br>Profile</a>
-                      </div>
-                      <div class="col-xs-4 text-center">
-                        <a href="{{=URL('default', 'user', args=['change_password'], vars={'_next': URL()})}}"><i class="fa fa-key"></i><br>Password</a>
-                      </div>
-                      <div class="col-xs-4 text-center">
-                        <a href="{{=URL('default', 'user', args=['logout'], vars={'_next': URL()})}}"><i class="fa fa-sign-out"></i><br>Log&nbsp;Out</a>
-                      </div>
-                    </div><!-- /.row -->
-                  </li>
-                  <!-- User Menu Footer-->
-                  <li class="user-footer hidden">
-                    <div class="pull-left">
-                      <a href="{{=URL('default', 'user', args=['profile'], vars={'_next': URL()})}}" class="btn btn-default btn-flat">Profile</a>
                     </div>
-                    <div class="">
-                      <a href="{{=URL('default', 'user', args=['change_password'], vars={'_next': URL()})}}" class="btn btn-default btn-flat">Password</a>
-                    </div>
-                    <div class="pull-right">
-                      <a href="{{=URL('default', 'user', args=['logout'], vars={'_next': URL()})}}" class="btn btn-default btn-flat">Sign out</a>
-                    </div>
+                    <!-- /.row -->
                   </li>
                 </ul>
 
@@ -253,19 +232,28 @@ desired effect
           {{else:}}
 
               <!-- Log In Menu -->
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Log In <span class="caret"></span></a>
-                <ul class="dropdown-menu" role="menu">
-                  {{if not 'register' in auth.settings.actions_disabled:}}
-                    <li><a href="{{=URL('default', 'user', args=['register'], vars={'_next': URL()})}}"><i class="fa fa-pencil-square-o"></i> Sign Up</a></li>
-                  {{pass}}
-                  <li><a href="{{=URL('default', 'user', args=['request_reset_password'], vars={'_next': URL()})}}"><i class="fa fa-question"></i> Forgot Password?</a></li>
-                  <li><a href="{{=URL('default', 'user', args=['retrieve_username'], vars={'_next': URL()})}}"><i class="fa fa-question"></i> Forgot Username?</a></li>
-                  <li class="divider"></li>
-                  <li><a href="{{=URL('default', 'user', args=['login'], vars={'_next': URL()})}}"><i class="fa fa-sign-in"></i> Log In</a></li>
-                </ul>
-              </li> <!-- /Log In Menu -->
+              <li class="dropdown user user-menu">
 
+                <!-- Menu toggle button -->
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Log In <span class="caret"></span></a>
+
+                <ul class="dropdown-menu">
+                  {{if not 'register' in auth.settings.actions_disabled:}}
+                    <li class="user-body">
+                      <a href="{{=URL('default', 'user', args=['register'], vars={'_next': URL()})}}"><i class="fa fa-pencil-square-o"></i>Register</a>
+                    </li>
+                  {{pass}}
+                  <li class="user-body">
+                    <a href="{{=URL('default', 'user', args=['request_reset_password'], vars={'_next': URL()})}}"><i class="fa fa-key"></i>Forgot Password?</a>
+                    <a href="{{=URL('default', 'user', args=['retrieve_username'], vars={'_next': URL()})}}"><i class="fa fa-user"></i>Forgot Username?</a>
+                  </li>
+                  <li class="user-body">
+                    <a href="{{=URL('default', 'user', args=['login'], vars={'_next': URL()})}}"><i class="fa fa-sign-in"></i>Log In</a>
+                  </li>
+                </ul>
+
+              </li> <!-- /Log In Menu -->
+              
           {{pass}}
 
         </ul> <!-- /.navbar-nav -->
