@@ -4,9 +4,11 @@
 # Customize your APP title, subtitle and menus here
 #########################################################################
 
-response.logo = A(B('web', SPAN(2), 'py'), XML('&trade;&nbsp;'),
-                  _class="navbar-brand", _href="http://www.web2py.com/",
-                  _id="web2py-logo")
+response.logo_mini = IMG(_src=URL('static', 'images/favicon.png'), _alt=myconf.get('app.company'), _width="30px")
+
+# response.logo = IMG(_src=URL('static', 'images/favicon.png'), _alt=myconf.get('app.company'), _width="180px")
+# response.logo = SPAN('web', B(2), 'py', XML('&trade;&nbsp;'))
+response.logo = myconf.get('app.abbreviation')
 
 # default page title that appears in browser tabs and bookmarks
 response.title = '%s: %s %s' % (
@@ -34,23 +36,3 @@ response.version = myconf.get('app.version')
 
 # your http://google.com/analytics id
 response.google_analytics_id = None
-
-#########################################################################
-# this is the main application menu add/remove items as required
-#########################################################################
-
-# todo - use response menu in layout.html
-
-
-def menu_item(label, controller, action, icon='link', args=[], user_signature=False, submenu=[]):
-    link = URL(controller, action, args=args, user_signature=user_signature)
-    menu_item = ((I(' ', _class='fa fa-%s' % icon), T(label)), link == URL(), link, submenu)
-    return menu_item
-
-
-response.menu = [
-    menu_item('Home', 'default', 'index', icon='home'),
-    menu_item('People', 'person', 'list', icon='home'),
-    menu_item('Dogs', 'dog', 'list', icon='home'),
-    menu_item('Dog Owners', 'dog_owner', 'list', icon='home'),
-]

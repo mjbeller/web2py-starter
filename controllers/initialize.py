@@ -32,13 +32,13 @@ def adminuser():
 def authgroups():
     if not db().select(db.auth_group.ALL).first():
         for group in myconf.get('admin_user.auth_groups'):
-            db.auth_group.insert(
+            group_id = db.auth_group.insert(
                 role=group
             )
-        db.auth_membership.insert(
-            user_id=1,
-            group_id=1
-        )
+            db.auth_membership.insert(
+                user_id=1,
+                group_id=group_id
+            )
     return
 
 

@@ -98,9 +98,13 @@ desired effect
     <!-- Logo -->
     <a href="{{=URL('default','index')}}" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini">w<b>2</b>p</span>
+      <span class="logo-mini">
+        {{=response.logo_mini}}
+      </span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg">web<b>2</b>py</span>
+      <span class="logo-lg">
+        {{=response.logo}}
+      </span>
     </a>
 
     <!-- Header Navbar -->
