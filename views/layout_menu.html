@@ -7,7 +7,7 @@
     <li class="header">Dogs &amp; Owners</li>
 
     <li class="treeview">
-        {{=sidebar_menu_item('Dogs', icon='suitcase')}}
+    {{=sidebar_menu_item('Dogs', icon='suitcase')}}
         <ul class="treeview-menu">
         {{=sidebar_menu_item('View Dogs', URL('dog', 'list'), icon='list')}}
         {{=sidebar_menu_item('Create Dog', URL('dog', 'create'), icon='pencil-square-o')}}
@@ -15,7 +15,7 @@
     </li>
 
     <li class="treeview">
-        {{=sidebar_menu_item('Owners', icon='university')}}
+    {{=sidebar_menu_item('Owners', icon='university')}}
         <ul class="treeview-menu">
         {{=sidebar_menu_item('View Owners', URL('person', 'list'), icon='list')}}
         {{=sidebar_menu_item('Create Owner', URL('person', 'create'), icon='pencil-square-o')}}
@@ -23,15 +23,15 @@
     </li>
 
     <li class="treeview">
-        {{=sidebar_menu_item('Dog Owners', icon='university')}}
+    {{=sidebar_menu_item('Dog Owners', icon='university')}}
         <ul class="treeview-menu">
         {{=sidebar_menu_item('View Dog Owners', URL('dog_owner', 'list'), icon='list')}}
         {{=sidebar_menu_item('Create Dog Owner', URL('dog_owner', 'create'), icon='pencil-square-o')}}
         </ul>
     </li>
 
-    <li class="treeview">
-        {{=sidebar_menu_item('Admin', icon='gears')}}
+    <li class="treeview {{=user_visibility('Admin')}}">
+    {{=sidebar_menu_item('Admin', icon='gears')}}
         <ul class="treeview-menu">
         {{=sidebar_menu_item('Manage Content', URL('content','list'), icon='file-text-o')}}
           {{=sidebar_menu_item('Manage Users', URL('appadmin','manage/users'), icon='users')}}
@@ -39,7 +39,7 @@
     </li>
 
     <li class="treeview {{=user_visibility('Admin')}}">
-        {{=sidebar_menu_item('Super Admin', icon='gears')}}
+    {{=sidebar_menu_item('Super Admin', icon='gears')}}
         <ul class="treeview-menu">
         {{=sidebar_menu_item('Manage Auth', URL('appadmin','manage/auth'), icon='wrench')}}
           {{=sidebar_menu_item('Manage Database', URL('appadmin','manage/db'), icon='database')}}
@@ -57,8 +57,8 @@
 
     <li class="header">COMPANY</li>
 
-    {{=sidebar_menu_item('About', URL('default', 'about'), icon='book')}}
-    {{=sidebar_menu_item('Privacy', URL('default', 'privacy'), icon='book')}}
-    {{=sidebar_menu_item('Terms of Use', URL('default', 'tou'), icon='book')}}
+{{=sidebar_menu_item('About', URL('default', 'about'), icon='book')}}
+{{=sidebar_menu_item('Privacy', URL('default', 'privacy'), icon='book')}}
+{{=sidebar_menu_item('Terms of Use', URL('default', 'tou'), icon='book')}}
 
 </ul>

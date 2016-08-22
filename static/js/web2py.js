@@ -206,22 +206,22 @@
                     $(this).trigger('click');
                 }
             });
-            var date_format = !web2py.isUndefined(w2p_ajax_date_format) ? w2p_ajax_date_format : '%Y-%m-%d';
-            doc.on('click', 'input.date', function () {
-                var tformat = $(this).data('w2p_date_format');
-                var active = $(this).data('w2p_date');
-                var format = !web2py.isUndefined(tformat) ? tformat : date_format;
-                if (active === undefined) {
-                    Calendar.setup({
-                        inputField: this,
-                        ifFormat: format,
-                        showsTime: false
-                    });
-                    $(this).data('w2p_date', 1);
-                    $(this).attr('autocomplete', 'off');
-                    $(this).trigger('click');
-                }
-            });
+            // var date_format = !web2py.isUndefined(w2p_ajax_date_format) ? w2p_ajax_date_format : '%Y-%m-%d';
+            // doc.on('click', 'input.date', function () {
+            //     var tformat = $(this).data('w2p_date_format');
+            //     var active = $(this).data('w2p_date');
+            //     var format = !web2py.isUndefined(tformat) ? tformat : date_format;
+            //     if (active === undefined) {
+            //         Calendar.setup({
+            //             inputField: this,
+            //             ifFormat: format,
+            //             showsTime: false
+            //         });
+            //         $(this).data('w2p_date', 1);
+            //         $(this).attr('autocomplete', 'off');
+            //         $(this).trigger('click');
+            //     }
+            // });
             doc.on('focus', 'input.time', function () {
                 var active = $(this).data('w2p_time');
                 if (web2py.isUndefined(active)) {
