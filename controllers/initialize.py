@@ -22,7 +22,7 @@ def adminuser():
 
         authgroups()
         fixauthgroups()
-        load_sample_data()
+        # load_sample_data()
 
         session.flash = "Initialized!!"
 
