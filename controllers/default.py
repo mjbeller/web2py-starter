@@ -10,7 +10,7 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
-    response.view_title = 'web2py Starter App'
+    response.view_title = myconf.get('app.name') + ' Home Page'
     return dict(message='')
 
 

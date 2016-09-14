@@ -32,7 +32,7 @@ jQuery(document).ready(function($) {
                     type: 'POST',
                     data: bookmarkData,
                     success: function( data ) {
-                      web2py_component('/starter/bookmark/list.load', 'bookmark_list');
+                      web2py_component('/' + w2p_app_name + '/bookmark/list.load', 'bookmark_list');
                       btn.removeClass("active");
                     }
                 });  // ajax
@@ -44,7 +44,7 @@ jQuery(document).ready(function($) {
                     type: 'POST',
                     data: bookmarkData,
                     success: function( data ) {
-                      web2py_component('/starter/bookmark/list.load', 'bookmark_list');
+                      web2py_component('/' + w2p_app_name + '/bookmark/list.load', 'bookmark_list');
                       btn.addClass("active");
                     }
                 });  // ajax
