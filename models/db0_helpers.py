@@ -173,7 +173,13 @@ def sidebar_menu_item(label, url=None, icon='link'):
             (
                 I(' ', _class='fa fa-%s' % icon),
                 SPAN(T(label)),
-                I(' ', _class='fa fa-angle-left pull-right'),
+                SPAN(
+                    I(
+                        ' ', 
+                        _class='fa fa-angle-left pull-right'
+                        ),
+                    _class='pull-right-container'
+                    )
             ),
             _href="#"
         )
