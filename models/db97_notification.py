@@ -6,7 +6,7 @@ db.define_table(
         length=140,
     ),
     Field(
-        'user',
+        'auth_user',
         'reference auth_user',
     ),
     auth.signature,

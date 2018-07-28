@@ -13,7 +13,7 @@ db.define_table(
         ]),
     ),
     Field(
-        'user',
+        'auth_user',
         'reference auth_user',
     ),
     auth.signature,
