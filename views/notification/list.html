@@ -1,0 +1,30 @@
+{{extend 'layout.html'}}
+
+
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        {{for note in notifications:}}
+        <div class="box box-{{=note['message_type']}}">
+            <div class="box-header with-border">
+                <h3 class="box-title">{{=note['title']}}</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                </div>
+              <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="">
+                        <ul>
+                            {{=LI(XML(note['message']))}}
+                            {{#=A('Click here', _href=URL(note['controller'], note['function'], args=[], vars=dict()))}}
+                        </ul>
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+        {{pass}}
+    </div>
+</div>

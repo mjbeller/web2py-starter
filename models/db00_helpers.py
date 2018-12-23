@@ -96,6 +96,11 @@ dal_list_states = [
     ('YT', 'Yukon Territory, CAN'),
 ]
 
+# global list for all app notifications
+all_notifications = []
+# be sure to write 2 types of functions to support this
+## 1. functions to create notification messages based on your app specifics
+## 2. functions to add each message to the app_notifications list
 
 class Titleize(object):
     '''Field(..., requires=Titleize())'''
@@ -160,7 +165,7 @@ def sidebar_menu_item(label, url=None, icon='link'):
     '''
 
     if url:
-        active = 'active' if url == URL() else None
+        active = 'active' if url == URL(request.controller, request.function, args=request.args, vars=request.get_vars) else None
         return LI(
             A(
                 (I(' ', _class='fa fa-%s' % icon), SPAN(T(label))),
@@ -175,7 +180,7 @@ def sidebar_menu_item(label, url=None, icon='link'):
                 SPAN(T(label)),
                 SPAN(
                     I(
-                        ' ', 
+                        ' ',
                         _class='fa fa-angle-left pull-right'
                         ),
                     _class='pull-right-container'
