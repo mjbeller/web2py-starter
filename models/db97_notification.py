@@ -17,7 +17,11 @@ db.define_table(
             )
         )
     ),
-    Field('is_read', 'boolean', label=T('Read?')),
+    Field(
+        'is_read',
+        'boolean',
+        label=T('Read?'),
+    ),
     Field(
         'auth_user',
         'reference auth_user',

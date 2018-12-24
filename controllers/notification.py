@@ -21,8 +21,9 @@ def index():
 
 @auth.requires_login()
 def list():
-    num_notifications = len(all_survey_notifications())
-    notifications = all_survey_notifications()
+    num_notifications = len(all_notifications
+    notifications = all_notifications
+    
 
     response.view_title = '%s %s %s' % (
         request.controller.replace('_', ' ').title(),
