@@ -12,7 +12,7 @@
         #     survey_id = survey.id)
 '''
 
-# These functions are found in the db00_helpers.py file due to being needed for survey list view
+# These functions are found in the db00_helpers.py file due to being needed for all views
 
 ### END in-common controller functions
 
