@@ -96,6 +96,22 @@ dal_list_states = [
     ('YT', 'Yukon Territory, CAN'),
 ]
 
+# Global list for all app notifications.
+
+# The idea was to have all notification conditions checked on the fly by
+# functions set up to detect each condition (eg. missing data needed).
+
+# If a notification condition exists then the alert and the appropriate user
+# instruction could be generated and added to the all_notifications list for display.
+
+# If there needs to be tracking of notification incindents, then consider
+# modifying the database model (eg. models/97_notification.py) for persistence.
+
+all_notifications = []
+# be sure to write 2 types of functions to support this
+## 1. functions to create notification messages based on the desired
+##    notification conditions for your app
+## 2. functions to add each message to the app_notifications list
 
 class Titleize(object):
     '''Field(..., requires=Titleize())'''
@@ -160,7 +176,7 @@ def sidebar_menu_item(label, url=None, icon='link'):
     '''
 
     if url:
-        active = 'active' if url == URL() else None
+        active = 'active' if url == URL(request.controller, request.function, args=request.args, vars=request.get_vars) else None
         return LI(
             A(
                 (I(' ', _class='fa fa-%s' % icon), SPAN(T(label))),
@@ -175,7 +191,7 @@ def sidebar_menu_item(label, url=None, icon='link'):
                 SPAN(T(label)),
                 SPAN(
                     I(
-                        ' ', 
+                        ' ',
                         _class='fa fa-angle-left pull-right'
                         ),
                     _class='pull-right-container'
@@ -228,3 +244,92 @@ def is_user_member(*roles):
 def user_visibility(*groups):
     """in views, in class attribute: {{=user_visibility('list', 'of', 'authorized', 'user_groups')}}"""
     return 'hidden' if not is_user_member(*groups) else 'visible'
+
+
+def get_add_form(table, redirect_url):
+    ''' generate new record form object '''
+    form = SQLFORM(table,
+        _id='form',
+        # buttons=[
+        #     INPUT(_type='reset', _class='btn-default btn-md'),
+        #     INPUT(_type='submit', _class='btn-primary pull-right')
+        #     ]
+        )
+    # if form.process().accepted:
+    if form.validate():
+        session.flash = 'Successfully added'
+        form.vars.id = db[table].insert(**dict(form.vars))
+        redirect(redirect_url)
+    elif form.errors:
+        txt =''
+        for fieldname in form.errors:
+            txt += form.errors[fieldname]+'; '
+        session.flash = 'Error: '+XML(txt)
+    return form
+
+def get_update_form(table, record_id, redirect_url):
+    ''' generate update record form object '''
+    form = SQLFORM(table,
+        record_id,
+        showid = False,
+        submit_button='Update',
+        deletable = True
+        )
+    # if form.process().accepted:
+    if form.validate():
+        if form.deleted:
+            db(table.id == record_id).delete()
+            session.flash = 'Successfully deleted'
+        else:
+            db[table][record_id].update_record(**dict(form.varsauth_user))
+            session.flash = 'Successfully updated'
+        redirect(redirect_url)
+    elif form.errors:
+        txt = '<ul>'
+        for fieldname in form.errors:
+            txt += '<li>'+fieldname+' error: '+form.errors[fieldname]+'</li>'
+        txt += '</ul>'
+        session.flash = 'The form has errors: '+txt
+    return form
+
+
+def get_modal(id, title, content, size='md'):
+    ''' return a bootstrap modal'''
+    rv = DIV(
+            DIV(
+                DIV(
+                    DIV(
+                        DIV(
+                            XML('<a class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></a>'),
+                            H3(title, _class='modal-title')
+                        ),
+                        _class='modal-header'
+                    ),
+                    DIV(
+                        content,
+                        _class='modal-body'
+                    ),
+                    DIV(
+                        XML('<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>'),
+                        _class='modal-footer'
+                    ),
+                    _class='modal-content'
+                ),
+                _class='modal-dialog modal-'+size
+            ),
+             _class='modal fade', _role='dialog', _id=id,
+        )
+    return rv
+
+def m_link(modal_id, title, btn_class=False, btn_type='normal', btn_sz='sm'):
+    # set up a link to a modal
+    if btn_class is True:
+        btn = 'btn' + ' btn-'+btn_type + ' btn-'+btn_sz
+    else:
+        btn = ''
+
+    rv = '<a href="#" data-toggle="modal" data-target="#'+modal_id+'" class="'+btn+'">'
+    rv += title
+    rv += '</a>'
+
+    return XML(rv)

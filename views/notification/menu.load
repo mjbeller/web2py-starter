@@ -1,0 +1,31 @@
+<li id="notifications-menu-load" class="dropdown notifications-menu">
+  <!-- Menu toggle button -->
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+    <i class="fa fa-bell-o"></i>
+    {{if num_notifications > 0:}}
+    <span class="label label-warning">{{=num_notifications}}</span>
+    {{pass}}
+  </a>
+  <ul class="dropdown-menu">
+    <li class="header">You have {{=num_notifications}} notifications</li>
+    <li>
+      <!-- Inner Menu: contains the notifications -->
+      <ul class="menu">
+        {{for notification in notifications:}}
+        <li><!-- start notification -->
+          <a href="{{=URL('notification', 'list.html')}}">
+            <i class="fa fa-{{=notification['message_type']}} text-orange"></i> {{=notification['title']}}
+          </a>
+        </li>
+        <!-- end notification -->
+        {{pass}}
+      </ul>
+    </li>
+    <li class="footer"><a href="{{=URL('notification', 'list.html')}}">View all</a></li>
+  </ul>
+</li>
+<!-- /Notifications Menu -->
+
+<script>
+$("#notifications-menu-load").unwrap();
+</script>
